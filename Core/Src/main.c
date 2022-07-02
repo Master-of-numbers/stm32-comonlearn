@@ -18,6 +18,7 @@
 /* USER CODE END Header */
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
+#include "adc.h"
 #include "usart.h"
 #include "gpio.h"
 
@@ -87,7 +88,15 @@ int main(void)
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
   MX_USART1_UART_Init();
+  MX_ADC1_Init();
   /* USER CODE BEGIN 2 */
+    printf("test\r\n");
+    ADC1->CR2 |= ADC_CR2_ADON;
+    ADC1->CR1 |= ADC_CR1_EOCIE;
+    while (!(ADC1->CR2 & ADC_CR2_ADON));
+    ADC1->CR2 |= ADC_CR2_SWSTART;
+    printf("swsrart\r\n");
+
 
   /* USER CODE END 2 */
 
@@ -95,9 +104,6 @@ int main(void)
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-      GPIOC->ODR ^= 1 << 13;
-      printf("USART1_SR: 0x%lx\r\n",USART1->SR);
-      HAL_Delay(600);
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
@@ -147,6 +153,7 @@ void SystemClock_Config(void)
   {
     Error_Handler();
   }
+  LL_RCC_SetADCClockSource(LL_RCC_ADC_CLKSRC_PCLK2_DIV_6);
 }
 
 /* USER CODE BEGIN 4 */
