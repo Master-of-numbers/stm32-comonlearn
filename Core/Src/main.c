@@ -94,8 +94,8 @@ int main(void)
     ADC1->CR2 |= ADC_CR2_ADON;
     ADC1->CR1 |= ADC_CR1_EOCIE;
     while (!(ADC1->CR2 & ADC_CR2_ADON));
-    ADC1->CR2 |= ADC_CR2_SWSTART;
-    printf("swsrart\r\n");
+    ADC1->CR2 |= ADC_CR2_SWSTART | ADC_CR2_EXTTRIG;
+    printf("swstart\r\n");
 
 
   /* USER CODE END 2 */
